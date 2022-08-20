@@ -1,6 +1,7 @@
 # stock_cutting
 
-A minimalistic naive approach to the stock cutting problem
+A minimalistic naive approach to the
+[stock cutting problem](https://en.wikipedia.org/wiki/Cutting_stock_problem)
 
 ## Inputs
 order_cuts.txt: List of cuts to be done (with repetitions).
