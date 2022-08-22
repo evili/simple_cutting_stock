@@ -4,16 +4,20 @@
 #
 import numpy as np
 from read_lengths import get_data
-#order_cuts.txt  stock_rolls.txt
-stock_rolls = get_data('stock_rolls.txt')
+# order_cuts.txt  stock_rolls.txt
+stocks = sorted(get_data('stock_rolls.txt'), key=lambda roll: roll[1], reverse=True)
+# stock_labels, stock_rolls = get_data('stock_rolls.txt')
 # [1000, 1000, 650]
-order_cuts =  get_data('order_cuts.txt')
+orders = sorted(get_data('order_cuts.txt'), key=lambda cut: cut[1], reverse=True)
+# order_labels, order_cuts =  get_data('order_cuts.txt')
 # [450, 656, 400, 234, 234, 444,95,12]
 #
 # Sorted version
 #
-stock_rolls.sort(reverse=True)
-order_cuts.sort(reverse=True)
+
+stock_rolls = list(x[1] for x in stocks)
+order_cuts = list(x[1] for x in orders)
+print(f"Stock Rolls: {stock_rolls}")
 #
 # Check Stock Length
 #
