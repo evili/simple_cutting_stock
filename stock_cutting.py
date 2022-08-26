@@ -75,6 +75,50 @@ while pivot_roll < len(stock_rolls):
         not_fitted_orders = []
         pivot_roll += 1
 
+
+#
+# Now fill the largest waste with the largest piece from other roll. 
+#
+progress = True
+previous_max = stock_total
+flip = True
+
+while progress or flip:
+#while previous_max > max_wasted_length:
+    wasted_length = []
+    for roll_index, roll_length in enumerate(stock_rolls):
+        wasted_length.append(roll_length-sum(length_list(roll_cuts[roll_index])))
+    total_wasted_length = sum(wasted_length)
+    max_wasted_length = max(wasted_length)
+    index_max_wasted_length = wasted_length.index(max_wasted_length)
+    other_rolls = list(range(len(wasted_length)))
+    other_rolls.pop(index_max_wasted_length)
+    max_less_than_max_wasted = 0.0
+    index_max_less = -1
+    index_roll_max_less = -1
+    for other_index in other_rolls:
+        other = roll_cuts[other_index]
+        #print("Other: ", other)
+        for cut_index, cut in enumerate(other):
+            if cut[LENGTH] > max_less_than_max_wasted and cut[LENGTH] < max_wasted_length:
+                max_less_than_max_wasted = cut[LENGTH]
+                index_roll_max_less = other_index
+                index_max_less = cut_index
+    if index_max_less > 0 and index_roll_max_less > 0:
+        # We move from roll index_roll_max_less, cut number index_max_less to index_max_wasted_length
+        #print("Index Roll:", index_roll_max_less,", Index Cut: ",index_max_less)
+        #print("Roll Cuts: ", roll_cuts[index_roll_max_less])
+        the_cut = roll_cuts[index_roll_max_less].pop(index_max_less)
+        roll_cuts[index_max_wasted_length].append(the_cut)
+        print(f"Previous Max: {previous_max}, New Max: {max_wasted_length} (Flip: {flip})")
+        progress = previous_max > max_wasted_length
+        previous_max = max_wasted_length
+        flip = not flip
+        continue
+    else:
+        print("No other wasted fits rolls")
+        break
+
 #
 # We have tried to cut all rolls so there should be no uncut_orders
 #
