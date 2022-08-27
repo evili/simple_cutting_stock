@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Stock Cutting
+# Cutting Stock
 #
 import numpy as np
 from read_lengths import get_data
