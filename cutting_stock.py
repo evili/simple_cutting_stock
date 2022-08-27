@@ -6,34 +6,33 @@ import numpy as np
 from read_lengths import get_data
 LABEL = 0
 LENGTH = 1
-
+#
+# Helper funcionts
+#
 def length_list(label_length):
     return list(x[LENGTH] for x in label_length)
 
 def label_list(label_lengt):
     return list(x[LABEL] for x in label_length)
+#
+# Input data
+#
+stocks = sorted(get_data('stock_rolls.csv'), key=lambda roll: roll[LENGTH], reverse=True)
+orders = sorted(get_data('order_cuts.csv'), key=lambda cut: cut[LENGTH], reverse=True)
 
-# order_cuts.txt  stock_rolls.txt
-stocks = sorted(get_data('stock_rolls.txt'), key=lambda roll: roll[LENGTH], reverse=True)
-# stock_labels, stock_rolls = get_data('stock_rolls.txt')
-# [1000, 1000, 650]
-orders = sorted(get_data('order_cuts.txt'), key=lambda cut: cut[LENGTH], reverse=True)
-# order_labels, order_cuts =  get_data('order_cuts.txt')
-# [450, 656, 400, 234, 234, 444,95,12]
 #
 # Sorted version
 #
-
 stock_rolls = length_list(stocks)
 order_cuts = length_list(orders)
 
-# print(f"Stock Rolls: {stock_rolls}")
 #
 # Check Stock Length
 #
 stock_total = np.sum(stock_rolls)
 order_total = np.sum(order_cuts)
 assert stock_total >= order_total, f"Not enough stock roll ({stock_total}) for order ({order_total})"
+
 #
 # Roll Cuts
 #
@@ -48,21 +47,17 @@ print(f"\tOrder length: {order_total}, stock length: {stock_total}\n\n")
 #
 pivot_roll = 0
 uncut_orders = orders
-# _cuts.copy()
 not_fitted_orders = []
 cutted_orders = []
 
 while pivot_roll < len(stock_rolls):
     largest_cut = np.max(length_list(uncut_orders))
-    #print(f"Largest cut: {largest_cut}")
     next_cut = length_list(uncut_orders).index(largest_cut)
     if (stock_rolls[pivot_roll] - sum(length_list(cutted_orders))) >= largest_cut:
         # add to cutted_orders
-        #print(f"Cutting {largest_cut} from {pivot_roll}")
         cutted_orders.append(uncut_orders.pop(next_cut))
     else:
         # add to not_fitted_orders
-        #print(f"Cut {largest_cut} does not fit on {pivot_roll}")
         not_fitted_orders.append(uncut_orders.pop(next_cut))
 
     if (len(uncut_orders) == 0):

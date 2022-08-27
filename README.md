@@ -4,8 +4,8 @@ A minimalistic naive approach to the
 [cutting stock problem](https://en.wikipedia.org/wiki/Cutting_stock_problem)
 
 ## Inputs
-order_cuts.txt: List of cuts to be done (with repetitions).
-stock_rolls.txt: List of stock rolls to cut from (with repetitions).
+order_cuts.csv: List of cuts to be done (with repetitions), first column label, second label length.
+stock_rolls.csv: List of stock rolls to cut from (with repetitions), first column label, second label length.
 
 ## Strategy
 
