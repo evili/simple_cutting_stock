@@ -50,7 +50,7 @@ uncut_orders = orders
 not_fitted_orders = []
 cutted_orders = []
 
-while pivot_roll < len(stock_rolls):
+while (pivot_roll < len(stock_rolls)) and (len(uncut_orders) > 0):
     largest_cut = np.max(length_list(uncut_orders))
     next_cut = length_list(uncut_orders).index(largest_cut)
     if (stock_rolls[pivot_roll] - sum(length_list(cutted_orders))) >= largest_cut:
